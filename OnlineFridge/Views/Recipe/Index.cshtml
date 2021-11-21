@@ -1,0 +1,59 @@
+@model IEnumerable<OnlineFridge.Models.Recipe>
+
+@{
+    ViewData["Title"] = "Recipe Book";
+}
+
+<h1>Recipe Book</h1>
+
+<p>
+    <a asp-action="Create">Add a new recipe</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Prep Time
+            </th>
+            <th>
+                Cook Time
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.recipeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.foodCategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.recipeDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.prepTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cookTime)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RecipeID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RecipeID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RecipeID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
