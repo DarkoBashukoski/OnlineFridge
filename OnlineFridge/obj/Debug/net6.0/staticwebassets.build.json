@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HpHug2O49FjV05rZ7KNkilIVusYawh7UzkLDXYYjqgI=",
+  "Hash": "l7JdSiitTyEcE+KcLUi687I7FH3M2ytlxYsXWvEsZ6Q=",
   "Source": "OnlineFridge",
   "BasePath": "_content/OnlineFridge",
   "Mode": "Default",
@@ -1103,6 +1103,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\wwwroot\\images\\logo.png",
+      "SourceId": "OnlineFridge",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\wwwroot\\",
+      "BasePath": "_content/OnlineFridge",
+      "RelativePath": "images/logo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\logo.png"
     },
     {
       "Identity": "C:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\wwwroot\\js\\site.js",

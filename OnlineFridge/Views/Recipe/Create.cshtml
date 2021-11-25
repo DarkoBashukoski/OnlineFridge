@@ -65,7 +65,7 @@
         <h6>Steps</h6>
         <hr />
         <div class=row>
-            <button id="addRow" type="button" class="btn btn-success col mx-2">Add Step</button>
+            <button id="addRow" type="button" onclick="addStep()" class="btn btn-success col mx-2">Add Step</button>
         </div>
         <hr />
         <div id="stepsList" class=row></div>
@@ -83,22 +83,6 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-    // add row
-    $("#addRow").click(function () {
-        var html = '';
-        html += '<div id="inputFormRow">';
-        html += '<div class="input-group mb-3">';
-        html += '<input type="text" name="title[]" class="form-control m-input" placeholder="Enter title" autocomplete="off">';
-        html += '<div class="input-group-append">';
-        html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
-        html += '</div>';
-        html += '</div>';
-
-        $('#newRow').append(html);
-    });
-</script>
-
-<script>
     function addIngredient() {
         var html = '';
         html += '<div id="ingredient" class="form-group">';
@@ -111,10 +95,20 @@
     }
 
     function addStep() {
-        
+        var html = '';
+        html += '<div id="step" class="form-group">';
+        html += '<input type="text" class="form-control" style="width: 80%; display: inline;" />';
+        html += '<button id="removeRow" type="button" class="btn btn-danger" style="width: 16%; display: inline;" ><i class="fa fa-trash"></i></button>';
+        html += '</div>'
+
+        $('#stepsList').append(html);
     }
 
     $(document).on('click', '#removeRow', function () {
         $(this).closest('#ingredient').remove();
+    });
+
+    $(document).on('click', '#removeRow', function () {
+        $(this).closest('#step').remove();
     });
 </script>
