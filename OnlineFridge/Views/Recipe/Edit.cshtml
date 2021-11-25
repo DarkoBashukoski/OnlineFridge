@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="RecipeID" />
             <div class="form-group">
-                <label asp-for="foodCategory" class="control-label"></label>
+                <label asp-for="foodCategory" class="control-label" asp-items="Html.GetEnumSelectList<FoodCategory>()"></label>
                 <select asp-for="foodCategory" class="form-control"></select>
                 <span asp-validation-for="foodCategory" class="text-danger"></span>
             </div>

@@ -35,9 +35,9 @@ namespace OnlineFridge.Controllers
                 return NotFound();
             }
             var viewModel = new FullRecipeBook();
-            viewModel.recipe = await _context.Recipes.FirstOrDefaultAsync(m => m.RecipeID == id);
-            viewModel.steps = await _context.Steps.Where(m => m.RecipeID == id).OrderBy(m => m.stepNumber).ToListAsync();
-            viewModel.quantities = await _context.Quantities.Where(m => m.RecipeID == id).Include(i => i.ingredient).Include(i => i.measurement).ToListAsync();
+            viewModel.recipe = await _context.Recipes.AsNoTracking().FirstOrDefaultAsync(m => m.RecipeID == id);
+            viewModel.steps = await _context.Steps.Where(m => m.RecipeID == id).OrderBy(m => m.stepNumber).AsNoTracking().ToListAsync();
+            viewModel.quantities = await _context.Quantities.Where(m => m.RecipeID == id).Include(i => i.ingredient).Include(i => i.measurement).AsNoTracking().ToListAsync();
             if (viewModel.recipe == null)
             {
                 return NotFound();

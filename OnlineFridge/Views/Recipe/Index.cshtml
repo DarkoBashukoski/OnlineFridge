@@ -32,30 +32,30 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.recipeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.foodCategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.recipeDesc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.prepTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cookTime)
-            </td>
-            <td>
-                <div class="btn-group">
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.RecipeID"><i class="fa fa-pencil"></i></a>
-                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.RecipeID"><i class="fa fa-info-circle"></i></a>
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.RecipeID"><i class="fa fa-trash"></i></a>
-                </div> 
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.recipeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.foodCategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.recipeDesc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.prepTime) min
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cookTime) min
+        </td>
+        <td>
+            <div class="btn-group">
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.RecipeID"><i class="fa fa-pencil"></i></a>
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.RecipeID"><i class="fa fa-info-circle"></i></a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.RecipeID"><i class="fa fa-trash"></i></a>
+            </div> 
+        </td>
+    </tr>
 }
     </tbody>
 </table>
