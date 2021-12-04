@@ -157,5 +157,9 @@ namespace OnlineFridge.Controllers
         {
             return _context.Recipes.Any(e => e.RecipeID == id);
         }
+
+        public List<string> getIngredients() {
+            return _context.Ingredients.Select(m => m.ingredientName).AsNoTracking().ToList();
+        }
     }
 }

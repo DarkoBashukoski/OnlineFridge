@@ -75,33 +75,48 @@
     </div>
 </form>
 
+<link rel="stylesheet" href="~/lib/jquery-ui-1.13.0.custom/jquery-ui.min.css">
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 <script>
+    var id=0;
+    var ingreds = [];
+    $.getJSON("getIngredients", function(data) {
+        for (var i=0; i<data.length; i++) {
+            ingreds.push(data[i]);
+        }
+    });
+    console.log(ingreds);
+
     function addIngredient() {
         var html = '';
         html += '<div id="ingredient" class="form-group">';
         html += '<input type="number" class="form-control" style="width: 20%; display: inline;" />';
-        html += '<input type="text" class="form-control" style="width: 60%; display: inline;" />';
+        html += '<input id="ing' + id + '" type="text" class="ingredient-input form-control" style="width: 60%; display: inline;" />';
         html += '<button id="removeRow" type="button" class="btn btn-danger" style="width: 16%; display: inline;" ><i class="fa fa-trash"></i></button>';
         html += '</div>'
 
         $('#ingredientsList').append(html);
+        $('#ing' + id).autocomplete({
+            source: ingreds
+        });
+        id++;
     }
 
     function addStep() {
         var html = '';
         html += '<div id="step" class="form-group">';
-        html += '<input type="text" class="form-control" style="width: 80%; display: inline;" />';
+        html += '<input id="ing' + id + '" type="text" class="form-control" style="width: 80%; display: inline;" />';
         html += '<button id="removeRow" type="button" class="btn btn-danger" style="width: 16%; display: inline;" ><i class="fa fa-trash"></i></button>';
         html += '</div>'
 
         $('#stepsList').append(html);
+        id++;
     }
 
     $(document).on('click', '#removeRow', function () {
