@@ -3,6 +3,6 @@ namespace OnlineFridge.Models {
         public int MeasurementID {get; set;}
         public string? measurementName {get; set;}
 
-        public ICollection<Quantity>? quantities {get; set;}
+        public List<Quantity>? quantities {get; set;}
     }
 }

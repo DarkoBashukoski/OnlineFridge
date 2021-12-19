@@ -15,7 +15,7 @@ namespace OnlineFridge.Models {
         public int prepTime {get; set;}
         public int cookTime {get; set;}
 
-        public ICollection<Step>? steps {get; set;}
-        public ICollection<Quantity>? quantities {get; set;}
+        public List<Step>? steps {get; set;}
+        public List<Quantity>? quantities {get; set;}
     }
 }

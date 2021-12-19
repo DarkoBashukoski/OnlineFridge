@@ -3,6 +3,6 @@ namespace OnlineFridge.Models {
         public int IngredientID {get; set;}
         public string? ingredientName {get; set;}
 
-        public ICollection<Quantity>? quantities {get; set;}
+        public List<Quantity>? quantities {get; set;}
     }
 }

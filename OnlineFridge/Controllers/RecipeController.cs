@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineFridge.Data;
 using OnlineFridge.Models;
 using OnlineFridge.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-
+using Newtonsoft.Json.Linq;
 namespace OnlineFridge.Controllers
 {
     public class RecipeController : Controller
@@ -22,9 +17,18 @@ namespace OnlineFridge.Controllers
         }
 
         // GET: Recipe
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int? pageNumber)
         {
-            return View(await _context.Recipes.ToListAsync());
+            int pageSize = 4;
+            ViewData["CurrentFilter"] = searchString;
+
+
+            var recipes = from r in _context.Recipes select r;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                recipes = recipes.Where(r => r.recipeName.Contains(searchString));
+            }
+            return View(await PagedList<Recipe>.CreateAsync(recipes.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Recipe/Details/5
@@ -158,8 +162,40 @@ namespace OnlineFridge.Controllers
             return _context.Recipes.Any(e => e.RecipeID == id);
         }
 
-        public List<string> getIngredients() {
+        public List<string> getIngredients()
+        {
             return _context.Ingredients.Select(m => m.ingredientName).AsNoTracking().ToList();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> getData(string json)
+        {
+            dynamic obj = JObject.Parse(json);
+            Recipe r = new Recipe
+            {
+                recipeName = obj.recipeName,
+                recipeDesc = obj.recipeDesc,
+                prepTime = obj.prepTime,
+                cookTime = obj.cookTime,
+                foodCategory = (FoodCategory)Convert.ToInt32(obj.foodCategory)
+            };
+            _context.Add(r);
+            await _context.SaveChangesAsync();
+
+            int i = 1;
+            foreach (var step in obj.steps)
+            {
+                _context.Add(new Step
+                {
+                    stepDescription = step,
+                    stepNumber = i,
+                    RecipeID = r.RecipeID
+                });
+                i++;
+            }
+            await _context.SaveChangesAsync();
+
+            return Json(new { id = r.RecipeID });
         }
     }
 }

@@ -1,4 +1,4 @@
-@model OnlineFridge.Models.Recipe
+@model OnlineFridge.Models.ViewModels.FullRecipeBook
 
 @{
     ViewData["Title"] = "Create";
@@ -14,53 +14,55 @@
 
     /* Firefox */
     input[type=number] {
-    -moz-appearance: textfield;
+        -moz-appearance: textfield;
     }
 </style>
 <h1>Create</h1>
 
 <h4>Recipe</h4>
 <hr />
-<form asp-action="Create" class="row">
+<div class="row">
     <div class="col-md-4">
         <h6>General Information</h6>
         <hr />
         <div class="form-group">
-            <label asp-for="foodCategory" class="control-label"></label>
-            <select asp-for="foodCategory" class="form-control"
-                asp-items="Html.GetEnumSelectList<FoodCategory>()"></select>
-            <span asp-validation-for="foodCategory" class="text-danger"></span>
+            <label class="control-label">Food Category</label>
+            <select asp-for="recipe.foodCategory" id="foodCategory" class="form-control" asp-items="Html.GetEnumSelectList<FoodCategory>()"></select>
+            <span asp-validation-for="recipe.foodCategory" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="recipeName" class="control-label"></label>
-            <input asp-for="recipeName" class="form-control" />
-            <span asp-validation-for="recipeName" class="text-danger"></span>
+            <label class="control-label">Name</label>
+            <input asp-for="recipe.recipeName" id="recipeName" class="form-control" />
+            <span asp-validation-for="recipe.recipeName" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="recipeDesc" class="control-label"></label>
-            <input asp-for="recipeDesc" class="form-control" />
-            <span asp-validation-for="recipeDesc" class="text-danger"></span>
+            <label class="control-label">Description</label>
+            <input asp-for="recipe.recipeDesc" id="recipeDesc" class="form-control" />
+            <span asp-validation-for="recipe.recipeDesc" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="prepTime" class="control-label"></label>
-            <input asp-for="prepTime" class="form-control" />
-            <span asp-validation-for="prepTime" class="text-danger"></span>
+            <label class="control-label">Prep Time</label>
+            <input asp-for="recipe.prepTime" id="prepTime" class="form-control" />
+            <span asp-validation-for="recipe.prepTime" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="cookTime" class="control-label"></label>
-            <input asp-for="cookTime" class="form-control" />
-            <span asp-validation-for="cookTime" class="text-danger"></span>
+            <label class="control-label">Cook Time</label>
+            <input asp-for="recipe.cookTime" id="cookTime" class="form-control" />
+            <span asp-validation-for="recipe.cookTime" class="text-danger"></span>
         </div>
     </div>
+
     <div class="col-md-4">
         <h6>Ingredients</h6>
         <hr />
         <div class=row>
-            <button id="addRow" type="button" onclick="addIngredient()" class="btn btn-success col mx-2">Add Ingredient</button>
+            <button id="addRow" type="button" onclick="addIngredient()" class="btn btn-success col mx-2">Add
+                Ingredient</button>
         </div>
         <hr />
         <div id="ingredientsList" class=row></div>
     </div>
+
     <div class="col-md-4">
         <h6>Steps</h6>
         <hr />
@@ -70,10 +72,12 @@
         <hr />
         <div id="stepsList" class=row></div>
     </div>
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
-    </div>
-</form>
+</div>
+<div class="form-group">
+    <input type="button" id="btnSave" value="Create" class="btn btn-primary" />
+</div>
+
+
 
 <link rel="stylesheet" href="~/lib/jquery-ui-1.13.0.custom/jquery-ui.min.css">
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -84,14 +88,13 @@
 </div>
 
 <script>
-    var id=0;
+    var id = 0;
     var ingreds = [];
-    $.getJSON("getIngredients", function(data) {
-        for (var i=0; i<data.length; i++) {
+    $.getJSON("getIngredients", function (data) {
+        for (var i = 0; i < data.length; i++) {
             ingreds.push(data[i]);
         }
     });
-    console.log(ingreds);
 
     function addIngredient() {
         var html = '';
@@ -111,7 +114,7 @@
     function addStep() {
         var html = '';
         html += '<div id="step" class="form-group">';
-        html += '<input id="ing' + id + '" type="text" class="form-control" style="width: 80%; display: inline;" />';
+        html += '<input id="step' + id + '" type="text" class="form-control" style="width: 80%; display: inline;" />';
         html += '<button id="removeRow" type="button" class="btn btn-danger" style="width: 16%; display: inline;" ><i class="fa fa-trash"></i></button>';
         html += '</div>'
 
@@ -126,4 +129,28 @@
     $(document).on('click', '#removeRow', function () {
         $(this).closest('#step').remove();
     });
+
+    $(document).on("click", "#btnSave", function () {
+        var recipe = {};
+        recipe.foodCategory = $('#foodCategory').val();
+        recipe.recipeName = $('#recipeName').val();
+        recipe.recipeDesc = $('#recipeDesc').val();
+        recipe.prepTime = $('#prepTime').val();
+        recipe.cookTime = $('#cookTime').val();
+
+        recipe.steps = [];
+        $("#stepsList input").each(function () {
+            recipe.steps.push($(this).val());
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/Recipe/getData",
+            data: {json: JSON.stringify(recipe)},
+            dataType: "json",
+            success: function(response) {
+                location.href = '/Recipe/Details/' + response.id;
+            }
+        });
+    });  
 </script>
