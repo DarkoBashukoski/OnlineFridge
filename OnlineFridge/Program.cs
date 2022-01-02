@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using OnlineFridge.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("FridgeContext");
+var connectionString = builder.Configuration.GetConnectionString("AzureContext");
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<FridgeContext>();
