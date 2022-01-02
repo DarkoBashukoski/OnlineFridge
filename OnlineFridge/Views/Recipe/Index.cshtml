@@ -3,11 +3,11 @@
 @{
     ViewData["Title"] = "Recipe Book";
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="css/recipeCard.css">
+<script src="https://kit.fontawesome.com/f1f4a03335.js" crossorigin="anonymous"></script>
+
 <h1>Recipe Book</h1>
-<p>
-    <a class="btn btn-success" asp-action="Create"><i class="fa fa-plus-circle"></i> Add a new recipe</a>
-</p>
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
@@ -17,56 +17,46 @@
         </p>
     </div>
 </form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Category
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Prep Time
-            </th>
-            <th>
-                Cook Time
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.recipeName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.foodCategory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.recipeDesc)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.prepTime) min
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.cookTime) min
-        </td>
-        <td>
-            <div class="btn-group">
-                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.RecipeID"><i class="fa fa-pencil"></i></a>
-                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.RecipeID"><i class="fa fa-info-circle"></i></a>
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.RecipeID"><i class="fa fa-trash"></i></a>
-            </div> 
-        </td>
-    </tr>
-}
-    </tbody>
-</table>
+<div id="recipeList" class="row">
+    @foreach (var item in Model)
+    {
+        string imageName = item.RecipeID + ".png";
+        <div class="col-md-3">
+            <div class="img-container">
+                <img class="recipeImg" src="~/images/RecipeImages/@imageName">
+            </div>
+            <div class="info">
+                <section class="candy-stripe">
+                    <ul>
+                        <li class="stripe"></li>
+                        <li class="stripe"></li>
+                        <li class="stripe"></li>
+                        <li class="stripe"></li>
+                        <li class="stripe"></li>
+                        <li class="stripe"></li>
+                        <li class="stripe"></li>
+                    </ul>
+                </section>
+
+                <h3>@item.recipeName</h3>
+                <hr />
+                <ul class="recipeList">
+                    <li>
+                        <p><i class="fas fa-clock"></i> @item.prepTime min</p>
+                        <p>Prep Time</p>
+                    </li>
+                    <li>
+                        <p><i class="fas fa-fire"></i> @item.cookTime min</p>
+                        <p>Cook Time</p>
+                    </li>
+                </ul>
+                <hr />
+                <p class="description">@item.recipeDesc</p>
+                <a asp-controller="Recipe" asp-action="Details" asp-route-id="@item.RecipeID" class="btn viewRecipe">View Recipe</a>
+            </div>
+        </div>
+    }
+</div>
 
 @{
     var prevDisabled = !Model.hasPreviousPage ? "disabled" : "";
@@ -76,3 +66,32 @@
 <a asp-action="Index" asp-route-pageNumber="@(Model.pageIndex - 1)" class="btn btn-default @prevDisabled">Previous</a>
 
 <a asp-action="Index" asp-route-pageNumber="@(Model.pageIndex + 1)" class="btn btn-default @nextDisabled">Next</a>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        resizeImages();
+        resizeCards();
+        $(window).resize(resizeImages);
+        $(window).resize(resizeCards);
+    });
+
+    function resizeImages() {
+        $(".img-container").each(function() {
+            $(this).css("height", $(this).width() * 0.56);
+        });
+    }
+
+    function resizeCards() {
+        var maxHeight = 0;
+        $(".info").each(function() {
+            $(this).css("height", "auto");
+            maxHeight = $(this).height() > maxHeight ? $(this).height() : maxHeight; 
+        });
+        $(".info").each(function() {
+            var buttonHeight = $(this).find(".viewRecipe").height();
+            $(this).css("height", maxHeight + buttonHeight*2);
+        });
+    }
+</script>

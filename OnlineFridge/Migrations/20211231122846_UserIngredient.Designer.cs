@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineFridge.Data;
 
@@ -11,9 +12,10 @@ using OnlineFridge.Data;
 namespace OnlineFridge.Migrations
 {
     [DbContext(typeof(FridgeContext))]
-    partial class FridgeContextModelSnapshot : ModelSnapshot
+    [Migration("20211231122846_UserIngredient")]
+    partial class UserIngredient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

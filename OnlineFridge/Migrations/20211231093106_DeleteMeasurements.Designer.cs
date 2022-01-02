@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineFridge.Data;
 
@@ -11,9 +12,10 @@ using OnlineFridge.Data;
 namespace OnlineFridge.Migrations
 {
     [DbContext(typeof(FridgeContext))]
-    partial class FridgeContextModelSnapshot : ModelSnapshot
+    [Migration("20211231093106_DeleteMeasurements")]
+    partial class DeleteMeasurements
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,9 +282,6 @@ namespace OnlineFridge.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecipeID"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserID")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("cookTime")
                         .HasColumnType("int");
 
@@ -301,8 +300,6 @@ namespace OnlineFridge.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RecipeID");
-
-                    b.HasIndex("ApplicationUserID");
 
                     b.ToTable("Recipe", (string)null);
                 });
@@ -329,32 +326,6 @@ namespace OnlineFridge.Migrations
                     b.HasIndex("RecipeID");
 
                     b.ToTable("Step", (string)null);
-                });
-
-            modelBuilder.Entity("OnlineFridge.Models.UserIngredient", b =>
-                {
-                    b.Property<int>("UserIngredientID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserIngredientID"), 1L, 1);
-
-                    b.Property<string>("ApplicationUserID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("IngredientID")
-                        .HasColumnType("int");
-
-                    b.Property<float>("quantity")
-                        .HasColumnType("real");
-
-                    b.HasKey("UserIngredientID");
-
-                    b.HasIndex("ApplicationUserID");
-
-                    b.HasIndex("IngredientID");
-
-                    b.ToTable("UserIngredient", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -427,15 +398,6 @@ namespace OnlineFridge.Migrations
                     b.Navigation("recipe");
                 });
 
-            modelBuilder.Entity("OnlineFridge.Models.Recipe", b =>
-                {
-                    b.HasOne("OnlineFridge.Models.ApplicationUser", "applicationUser")
-                        .WithMany("recipes")
-                        .HasForeignKey("ApplicationUserID");
-
-                    b.Navigation("applicationUser");
-                });
-
             modelBuilder.Entity("OnlineFridge.Models.Step", b =>
                 {
                     b.HasOne("OnlineFridge.Models.Recipe", "recipe")
@@ -445,30 +407,6 @@ namespace OnlineFridge.Migrations
                         .IsRequired();
 
                     b.Navigation("recipe");
-                });
-
-            modelBuilder.Entity("OnlineFridge.Models.UserIngredient", b =>
-                {
-                    b.HasOne("OnlineFridge.Models.ApplicationUser", "applicationUser")
-                        .WithMany("ingredients")
-                        .HasForeignKey("ApplicationUserID");
-
-                    b.HasOne("OnlineFridge.Models.Ingredient", "ingredient")
-                        .WithMany()
-                        .HasForeignKey("IngredientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("applicationUser");
-
-                    b.Navigation("ingredient");
-                });
-
-            modelBuilder.Entity("OnlineFridge.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("ingredients");
-
-                    b.Navigation("recipes");
                 });
 
             modelBuilder.Entity("OnlineFridge.Models.Ingredient", b =>

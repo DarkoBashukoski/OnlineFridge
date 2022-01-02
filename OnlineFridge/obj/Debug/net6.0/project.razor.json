@@ -16483,6 +16483,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\Views\\Home\\PermissionDenied.cshtml",
+      "TargetPath": "Views\\Home\\PermissionDenied.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\Areas\\Identity\\Pages\\Account\\AccessDenied.cshtml",
       "TargetPath": "Areas\\Identity\\Pages\\Account\\AccessDenied.cshtml",
       "FileKind": "mvc"
@@ -16528,6 +16533,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\Views\\User\\Index.cshtml",
+      "TargetPath": "Views\\User\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\Areas\\Identity\\Pages\\Account\\Manage\\ShowRecoveryCodes.cshtml",
       "TargetPath": "Areas\\Identity\\Pages\\Account\\Manage\\ShowRecoveryCodes.cshtml",
       "FileKind": "mvc"
@@ -16550,11 +16560,6 @@
     {
       "FilePath": "c:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\Views\\Shared\\Error.cshtml",
       "TargetPath": "Views\\Shared\\Error.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\Views\\Home\\Privacy.cshtml",
-      "TargetPath": "Views\\Home\\Privacy.cshtml",
       "FileKind": "mvc"
     },
     {

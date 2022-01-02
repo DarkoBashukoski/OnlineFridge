@@ -1,0 +1,147 @@
+@model OnlineFridge.Models.ViewModels.ProfilePage;
+
+@{
+    ViewData["Title"] = "My Ingredients";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/popup.css">
+<style>
+    .btn-add {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6">
+        <h1 style="text-align: center;">My Ingredients</h1>
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.userIngredients)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ingredient.ingredientName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.quantity)
+                            </td>
+                            <td style="text-align: right;">
+                                <form method="post" asp-action="Edit" asp-route-id="@item.UserIngredientID">
+                                    <input style="width: 50px;" type="number" min="0" step="any" name="change">
+                                    <button type="submit" name="add" value="true" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                                    <button type="submit" name="add" value="false" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div style="padding: 5px;">
+                <a id="addIngredient" class="btn btn-success btn-add">Add a new Ingredient</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <h1 style="text-align: center;">My Recipes</h1>
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.recipes)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.recipeName)
+                            </td>
+                            <td style="text-align: right;">
+                                <a class="btn btn-warning" asp-controller="Recipe" asp-action="Edit"
+                                asp-route-id="@item.RecipeID"><i class="fa fa-pencil"></i></a>
+                                <a class="btn btn-info" asp-controller="Recipe" asp-action="Details"
+                                asp-route-id="@item.RecipeID"><i class="fa fa-info-circle"></i></a>
+                                <a class="btn btn-danger" asp-controller="Recipe" asp-action="Delete"
+                                asp-route-id="@item.RecipeID"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div style="padding: 5px;">
+                <a class="btn btn-success btn-add" asp-controller="Recipe" asp-action="Create">Add a new Recipe</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myPopup" class="popup">
+    <div class="popup-content">
+        <div>
+            <div style="text-align: center;">
+                <h2>Add a new Ingredient</h2>
+            </div>
+            <hr />
+            <form method="post" asp-action="Create">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Ingredient Name</label>
+                    <input id="ingredientInput" name="ingredientName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Quantity</label>
+                    <input name="quantity" type="number" min="0" step="any" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/lib/jquery-ui-1.13.0.custom/jquery-ui.min.css">
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
+
+<script>
+    var ingreds = [];
+    $.getJSON("Recipe/getIngredients", function (data) {
+        for (var i = 0; i < data.length; i++) {
+            ingreds.push(data[i]);
+        }
+    });
+
+    $('#ingredientInput').autocomplete({
+            source: ingreds
+        });
+
+    $('#addIngredient').click(function () {
+        $('#myPopup').css("display", "block");
+    });
+
+    $(window).click(function (event) {
+        if ($(event.target).is('#myPopup')) {
+            $('#myPopup').css("display", "none");
+        }
+    });
+</script>

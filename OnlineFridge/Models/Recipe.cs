@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineFridge.Models {
     public enum FoodCategory {
@@ -7,6 +8,7 @@ namespace OnlineFridge.Models {
 
     public class Recipe {
         public int RecipeID {get; set;}
+        public string? ApplicationUserID {get; set;} 
         public FoodCategory foodCategory {get; set;}
         [Required]
         public string? recipeName {get; set;}
@@ -17,5 +19,7 @@ namespace OnlineFridge.Models {
 
         public List<Step>? steps {get; set;}
         public List<Quantity>? quantities {get; set;}
+        [ForeignKey("ApplicationUserID")]
+        public ApplicationUser? applicationUser {get; set;}
     }
 }

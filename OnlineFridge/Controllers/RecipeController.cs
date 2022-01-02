@@ -5,15 +5,23 @@ using OnlineFridge.Models;
 using OnlineFridge.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+
 namespace OnlineFridge.Controllers
 {
     public class RecipeController : Controller
     {
         private readonly FridgeContext _context;
+        private readonly IWebHostEnvironment _environment;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public RecipeController(FridgeContext context)
+
+        public RecipeController(FridgeContext context, IWebHostEnvironment environment, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _environment = environment;
+            _userManager = userManager;
         }
 
         // GET: Recipe
@@ -41,7 +49,7 @@ namespace OnlineFridge.Controllers
             var viewModel = new FullRecipeBook();
             viewModel.recipe = await _context.Recipes.AsNoTracking().FirstOrDefaultAsync(m => m.RecipeID == id);
             viewModel.steps = await _context.Steps.Where(m => m.RecipeID == id).OrderBy(m => m.stepNumber).AsNoTracking().ToListAsync();
-            viewModel.quantities = await _context.Quantities.Where(m => m.RecipeID == id).Include(i => i.ingredient).Include(i => i.measurement).AsNoTracking().ToListAsync();
+            viewModel.quantities = await _context.Quantities.Where(m => m.RecipeID == id).Include(i => i.ingredient).AsNoTracking().ToListAsync();
             if (viewModel.recipe == null)
             {
                 return NotFound();
@@ -55,22 +63,6 @@ namespace OnlineFridge.Controllers
         public IActionResult Create()
         {
             return View();
-        }
-
-        // POST: Recipe/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RecipeID,foodCategory,recipeName,recipeDesc,prepTime,cookTime")] Recipe recipe)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(recipe);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(recipe);
         }
 
         // GET: Recipe/Edit/5
@@ -87,6 +79,9 @@ namespace OnlineFridge.Controllers
             {
                 return NotFound();
             }
+            if (_userManager.GetUserId(User) != recipe.ApplicationUserID) {
+                return RedirectToAction("PermissionDenied", "Home");
+            }
             return View(recipe);
         }
 
@@ -102,7 +97,6 @@ namespace OnlineFridge.Controllers
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
@@ -141,6 +135,9 @@ namespace OnlineFridge.Controllers
             {
                 return NotFound();
             }
+            if (_userManager.GetUserId(User) != recipe.ApplicationUserID) {
+                return RedirectToAction("PermissionDenied", "Home");
+            }
 
             return View(recipe);
         }
@@ -152,6 +149,9 @@ namespace OnlineFridge.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var recipe = await _context.Recipes.FindAsync(id);
+            if (_userManager.GetUserId(User) != recipe.ApplicationUserID) {
+                return RedirectToAction("PermissionDenied", "Home");
+            }
             _context.Recipes.Remove(recipe);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -168,22 +168,23 @@ namespace OnlineFridge.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> getData(string json)
+        [Authorize]
+        public async Task<IActionResult> Create(IFormCollection formCollection, IFormFile img)
         {
-            dynamic obj = JObject.Parse(json);
             Recipe r = new Recipe
             {
-                recipeName = obj.recipeName,
-                recipeDesc = obj.recipeDesc,
-                prepTime = obj.prepTime,
-                cookTime = obj.cookTime,
-                foodCategory = (FoodCategory)Convert.ToInt32(obj.foodCategory)
+                ApplicationUserID = _userManager.GetUserId(User),
+                recipeName = formCollection["recipeName"],
+                recipeDesc = formCollection["recipeDesc"],
+                prepTime = Convert.ToInt32(formCollection["prepTime"]),
+                cookTime = Convert.ToInt32(formCollection["cookTime"]),
+                foodCategory = (FoodCategory)Convert.ToInt32(formCollection["foodCategory"])
             };
             _context.Add(r);
             await _context.SaveChangesAsync();
 
             int i = 1;
-            foreach (var step in obj.steps)
+            foreach (string step in formCollection["steps"])
             {
                 _context.Add(new Step
                 {
@@ -194,6 +195,29 @@ namespace OnlineFridge.Controllers
                 i++;
             }
             await _context.SaveChangesAsync();
+
+            foreach (string ingredient in formCollection["ingredients"])
+            {
+                dynamic ing = JObject.Parse(ingredient);
+                string name = ing["name"];
+                _context.Add(new Quantity
+                {
+                    RecipeID = r.RecipeID,
+                    IngredientID = _context.Ingredients.First(m => m.ingredientName == name).IngredientID,
+                    quantity = ing["quantiy"]
+                });
+            }
+            await _context.SaveChangesAsync();
+
+            var path = Path.Combine(this._environment.WebRootPath, "images/RecipeImages");
+            if (img.Length > 0)
+            {
+                string filePath = Path.Combine(path, r.RecipeID + ".png");
+                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await img.CopyToAsync(fileStream);
+                }
+            }
 
             return Json(new { id = r.RecipeID });
         }

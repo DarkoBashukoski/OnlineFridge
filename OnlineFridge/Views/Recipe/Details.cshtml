@@ -4,51 +4,111 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>@Html.DisplayFor(model => model.recipe.recipeName)</h1>
+<script src="https://kit.fontawesome.com/f1f4a03335.js" crossorigin="anonymous"></script>
+<style>
+    .card {
+        padding: 5px;
+    }
 
-<div>
-    <h4>Recipe</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.recipe.foodCategory)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.recipe.foodCategory)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.recipe.recipeDesc)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.recipe.recipeDesc)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.recipe.prepTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.recipe.prepTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.recipe.cookTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.recipe.cookTime)
-        </dd>
-    </dl>
+    h2 {
+        text-align: center;
+    }
+
+    .recipeImg {
+        width: 80%;
+        height: 100%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    .recipeList {
+        display: flex;
+        list-style: none;
+        justify-content: space-between;
+        padding-inline-end: 10%;
+        padding-inline-start: 10%;
+    }
+
+    .recipeList li p {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <h2>@Html.DisplayFor(model => model.recipe.recipeName)</h2>
+            <hr />
+            @{
+                string imageName = Model.recipe.RecipeID + ".png";
+            }
+            <div class="img-container">
+                <img class="recipeImg" src="~/images/RecipeImages/@imageName">
+            </div>
+            <hr />
+            <ul class="recipeList">
+                <li>
+                    <p>Prep Time</p>
+                    <p><i class="fas fa-clock"></i> @Model.recipe.prepTime min</p>
+                </li>
+                <li>
+                    <p>Food Category</p>
+                    <p>@Model.recipe.foodCategory</p>
+                </li>
+                <li>
+                    <p>Cook Time</p>
+                    <p><i class="fas fa-fire"></i> @Model.recipe.cookTime min</p>
+                </li>
+            </ul>
+            <hr />
+            <dd>
+                @Html.DisplayFor(model => model.recipe.recipeDesc)
+            </dd>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.recipe.RecipeID">Edit</a> |
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <h2>Ingredients</h2>
+            <hr />
+            <div>
+                @foreach (var quantity in Model.quantities)
+                {
+                    <p>@quantity.quantity @quantity.ingredient.ingredientName</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <h2>Steps</h2>
+            <hr />
+            <div>
+                @foreach (var step in Model.steps)
+                {
+                    <p>@step.stepNumber. @step.stepDescription</p>
+                }
+            </div>
+        </div>
+    </div>
 </div>
-<hr />
-<div>
-    @foreach (var quantity in Model.quantities) {
-        <p>@quantity.quantity @quantity.measurement.measurementName @quantity.ingredient.ingredientName</p>
-    } 
-</div>
-<hr />
-<div>
-    @foreach (var step in Model.steps) {
-        <p>@step.stepNumber. @step.stepDescription</p>
-    } 
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.recipe.RecipeID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<script>
+    $(document).ready(function () {
+        resizeImage();
+        $(window).resize(resizeImage);
+    });
+
+    function resizeImage() {
+        $(".img-container").each(function () {
+            $(this).css("height", $(this).width() * 0.75);
+        });
+    }
+</script>
