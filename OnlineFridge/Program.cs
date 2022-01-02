@@ -9,6 +9,7 @@ var connectionString = builder.Configuration.GetConnectionString("AzureContext")
 builder.Services.AddControllersWithViews();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<FridgeContext>();
 builder.Services.AddDbContext<FridgeContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -24,6 +25,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSwagger();
+app.UseSwaggerUI(c => {c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");});
 
 app.UseRouting();
 app.UseAuthentication();

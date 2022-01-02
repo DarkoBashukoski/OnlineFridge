@@ -269,3 +269,7 @@ C:\Users\danie\Desktop\OnlineFridge\OnlineFridge\bin\Debug\net6.0\Microsoft.AspN
 C:\Users\danie\Desktop\OnlineFridge\OnlineFridge\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\danie\Desktop\OnlineFridge\OnlineFridge\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.UI.dll
 C:\Users\danie\Desktop\OnlineFridge\OnlineFridge\obj\Debug\net6.0\OnlineFridge.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\danie\Desktop\OnlineFridge\OnlineFridge\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\danie\Desktop\OnlineFridge\OnlineFridge\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\danie\Desktop\OnlineFridge\OnlineFridge\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\danie\Desktop\OnlineFridge\OnlineFridge\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
