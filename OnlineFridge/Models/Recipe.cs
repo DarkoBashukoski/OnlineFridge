@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace OnlineFridge.Models {
     public enum FoodCategory {
@@ -19,6 +20,7 @@ namespace OnlineFridge.Models {
 
         public List<Step>? steps {get; set;}
         public List<Quantity>? quantities {get; set;}
+        [JsonIgnore]
         [ForeignKey("ApplicationUserID")]
         public ApplicationUser? applicationUser {get; set;}
     }

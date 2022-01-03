@@ -25,14 +25,14 @@ namespace OnlineFridge.Controllers_Api
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
         {
-            return await _context.Recipes.ToListAsync();
+            return await _context.Recipes.Include(m => m.steps).Include(m => m.quantities).ThenInclude(m => m.ingredient).ToListAsync();
         }
 
         // GET: api/Recipe/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Recipe>> GetRecipe(int id)
         {
-            var recipe = await _context.Recipes.FindAsync(id);
+            var recipe = await _context.Recipes.Where(m => m.RecipeID == id).Include(m => m.steps).Include(m => m.quantities).ThenInclude(m => m.ingredient).FirstAsync();
 
             if (recipe == null)
             {
