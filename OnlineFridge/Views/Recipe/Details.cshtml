@@ -45,7 +45,7 @@
                 string imageName = Model.recipe.RecipeID + ".png";
             }
             <div class="img-container">
-                <img class="recipeImg" src="~/images/RecipeImages/@imageName">
+                <img class="recipeImg" src="~/images/RecipeImages/@imageName" onerror="this.src = '/images/missing.png'">
             </div>
             <hr />
             <ul class="recipeList">
@@ -108,7 +108,7 @@
 
     function resizeImage() {
         $(".img-container").each(function () {
-            $(this).css("height", $(this).width() * 0.75);
+            $(this).css("height", $(this).width() * 0.56);
         });
     }
 </script>
