@@ -12,47 +12,47 @@ namespace OnlineFridge.Controllers_Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RecipeController : ControllerBase
+    public class IngredientApiController : ControllerBase
     {
         private readonly FridgeContext _context;
 
-        public RecipeController(FridgeContext context)
+        public IngredientApiController(FridgeContext context)
         {
             _context = context;
         }
 
-        // GET: api/Recipe
+        // GET: api/IngredientApi
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
+        public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredients()
         {
-            return await _context.Recipes.Include(m => m.steps).Include(m => m.quantities).ThenInclude(m => m.ingredient).ToListAsync();
+            return await _context.Ingredients.ToListAsync();
         }
 
-        // GET: api/Recipe/5
+        // GET: api/IngredientApi/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Recipe>> GetRecipe(int id)
+        public async Task<ActionResult<Ingredient>> GetIngredient(int id)
         {
-            var recipe = await _context.Recipes.Where(m => m.RecipeID == id).Include(m => m.steps).Include(m => m.quantities).ThenInclude(m => m.ingredient).FirstAsync();
+            var ingredient = await _context.Ingredients.FindAsync(id);
 
-            if (recipe == null)
+            if (ingredient == null)
             {
                 return NotFound();
             }
 
-            return recipe;
+            return ingredient;
         }
 
-        // PUT: api/Recipe/5
+        // PUT: api/IngredientApi/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRecipe(int id, Recipe recipe)
+        public async Task<IActionResult> PutIngredient(int id, Ingredient ingredient)
         {
-            if (id != recipe.RecipeID)
+            if (id != ingredient.IngredientID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(recipe).State = EntityState.Modified;
+            _context.Entry(ingredient).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace OnlineFridge.Controllers_Api
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RecipeExists(id))
+                if (!IngredientExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace OnlineFridge.Controllers_Api
             return NoContent();
         }
 
-        // POST: api/Recipe
+        // POST: api/IngredientApi
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
+        public async Task<ActionResult<Ingredient>> PostIngredient(Ingredient ingredient)
         {
-            _context.Recipes.Add(recipe);
+            _context.Ingredients.Add(ingredient);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRecipe", new { id = recipe.RecipeID }, recipe);
+            return CreatedAtAction("GetIngredient", new { id = ingredient.IngredientID }, ingredient);
         }
 
-        // DELETE: api/Recipe/5
+        // DELETE: api/IngredientApi/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRecipe(int id)
+        public async Task<IActionResult> DeleteIngredient(int id)
         {
-            var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe == null)
+            var ingredient = await _context.Ingredients.FindAsync(id);
+            if (ingredient == null)
             {
                 return NotFound();
             }
 
-            _context.Recipes.Remove(recipe);
+            _context.Ingredients.Remove(ingredient);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RecipeExists(int id)
+        private bool IngredientExists(int id)
         {
-            return _context.Recipes.Any(e => e.RecipeID == id);
+            return _context.Ingredients.Any(e => e.IngredientID == id);
         }
     }
 }
