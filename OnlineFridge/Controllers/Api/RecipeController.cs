@@ -15,10 +15,12 @@ namespace OnlineFridge.Controllers_Api
     public class RecipeController : ControllerBase
     {
         private readonly FridgeContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        public RecipeController(FridgeContext context)
+        public RecipeController(FridgeContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: api/Recipe
@@ -95,6 +97,9 @@ namespace OnlineFridge.Controllers_Api
             }
 
             _context.Recipes.Remove(recipe);
+            var path = Path.Combine(this._environment.WebRootPath, "images/RecipeImages");
+            var filePath = Path.Combine(path, id + ".png");
+            new FileInfo(filePath).Delete();
             await _context.SaveChangesAsync();
 
             return NoContent();
