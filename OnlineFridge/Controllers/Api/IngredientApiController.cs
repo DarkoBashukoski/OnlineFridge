@@ -10,7 +10,7 @@ using OnlineFridge.Models;
 
 namespace OnlineFridge.Controllers_Api
 {
-    [Route("api/[controller]")]
+    [Route("api/Ingredient")]
     [ApiController]
     public class IngredientApiController : ControllerBase
     {
@@ -21,14 +21,14 @@ namespace OnlineFridge.Controllers_Api
             _context = context;
         }
 
-        // GET: api/IngredientApi
+        // GET: api/Ingredient
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredients()
         {
             return await _context.Ingredients.ToListAsync();
         }
 
-        // GET: api/IngredientApi/5
+        // GET: api/Ingredient/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Ingredient>> GetIngredient(int id)
         {
@@ -42,7 +42,7 @@ namespace OnlineFridge.Controllers_Api
             return ingredient;
         }
 
-        // PUT: api/IngredientApi/5
+        // PUT: api/Ingredient/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutIngredient(int id, Ingredient ingredient)
@@ -73,7 +73,7 @@ namespace OnlineFridge.Controllers_Api
             return NoContent();
         }
 
-        // POST: api/IngredientApi
+        // POST: api/Ingredient
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Ingredient>> PostIngredient(Ingredient ingredient)
@@ -84,7 +84,7 @@ namespace OnlineFridge.Controllers_Api
             return CreatedAtAction("GetIngredient", new { id = ingredient.IngredientID }, ingredient);
         }
 
-        // DELETE: api/IngredientApi/5
+        // DELETE: api/Ingredient/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteIngredient(int id)
         {

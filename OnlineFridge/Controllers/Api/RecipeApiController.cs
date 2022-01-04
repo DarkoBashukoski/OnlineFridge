@@ -10,7 +10,7 @@ using OnlineFridge.Models;
 
 namespace OnlineFridge.Controllers_Api
 {
-    [Route("api/[controller]")]
+    [Route("api/Recipe")]
     [ApiController]
     public class RecipeApiController : ControllerBase
     {
