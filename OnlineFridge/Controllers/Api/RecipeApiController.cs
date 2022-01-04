@@ -15,10 +15,13 @@ namespace OnlineFridge.Controllers_Api
     public class RecipeApiController : ControllerBase
     {
         private readonly FridgeContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        public RecipeApiController(FridgeContext context)
+
+        public RecipeApiController(FridgeContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: api/Recipe
@@ -78,10 +81,29 @@ namespace OnlineFridge.Controllers_Api
         [HttpPost]
         public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
         {
+            var steps = recipe.steps;
+            var quantities = recipe.quantities;
+            recipe.steps = null;
+            recipe.quantities = null;
+
             _context.Recipes.Add(recipe);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRecipe", new { id = recipe.RecipeID }, recipe);
+            foreach (Step s in steps) {
+                s.RecipeID = recipe.RecipeID;
+            }
+            _context.Steps.AddRange(steps);
+
+            foreach (Quantity q in quantities) {
+                q.RecipeID = recipe.RecipeID;
+                var temp = q.ingredient.IngredientID;
+                q.ingredient = null;
+                q.IngredientID = temp;
+            }
+            _context.Quantities.AddRange(quantities);
+
+            await _context.SaveChangesAsync();
+            return await _context.Recipes.Where(m => m.RecipeID == recipe.RecipeID).Include(m => m.steps).Include(m => m.quantities).ThenInclude(m => m.ingredient).FirstAsync();
         }
 
         // DELETE: api/Recipe/5
@@ -96,6 +118,10 @@ namespace OnlineFridge.Controllers_Api
 
             _context.Recipes.Remove(recipe);
             await _context.SaveChangesAsync();
+
+            var path = Path.Combine(this._environment.WebRootPath, "images/RecipeImages");
+            var filePath = Path.Combine(path, id + ".png");
+            new FileInfo(filePath).Delete();
 
             return NoContent();
         }

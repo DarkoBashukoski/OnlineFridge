@@ -155,12 +155,12 @@ namespace OnlineFridge.Controllers
                 return RedirectToAction("PermissionDenied", "Home");
             }
             _context.Recipes.Remove(recipe);
+            await _context.SaveChangesAsync();
 
             var path = Path.Combine(this._environment.WebRootPath, "images/RecipeImages");
             var filePath = Path.Combine(path, id + ".png");
             new FileInfo(filePath).Delete();
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
