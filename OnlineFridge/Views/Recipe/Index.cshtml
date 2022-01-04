@@ -23,7 +23,7 @@
         string imageName = item.RecipeID + ".png";
         <div class="col-md-3">
             <div class="img-container">
-                <img class="recipeImg" src="~/images/RecipeImages/@imageName">
+                <img class="recipeImg" src="~/images/RecipeImages/@imageName" onerror="this.src = 'images/missing.png'">
             </div>
             <div class="info">
                 <section class="candy-stripe">
