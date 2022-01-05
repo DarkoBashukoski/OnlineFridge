@@ -27,18 +27,21 @@ namespace OnlineFridge.Controllers
         }
 
         // GET: Recipe
-        public async Task<IActionResult> Index(string searchString, int? pageNumber)
+        public async Task<IActionResult> Index(string searchString, int? pageNumber, bool canMakeFilter)
         {
             int pageSize = 4;
             ViewData["CurrentFilter"] = searchString;
 
-
-            var recipes = from r in _context.Recipes select r;
+            IQueryable<Recipe> recipes = _context.Recipes.Include(m => m.steps).Include(m => m.quantities).ThenInclude(m => m.ingredient).AsQueryable();
             if (!String.IsNullOrEmpty(searchString))
             {
                 recipes = recipes.Where(r => r.recipeName.Contains(searchString));
             }
-            return View(await PagedList<Recipe>.CreateAsync(recipes.AsNoTracking(), pageNumber ?? 1, pageSize));
+            if (canMakeFilter) {
+                var userIngredients = _context.userIngredients.Where(m => m.ApplicationUserID == _userManager.GetUserId(User));
+                recipes = recipes.ToList().Where(r => canMakeRecipe(r, userIngredients)).AsQueryable();
+            }
+            return View(PagedList<Recipe>.Create(recipes, pageNumber ?? 1, pageSize));
         }
 
         // GET: Recipe/Details/5
@@ -172,6 +175,23 @@ namespace OnlineFridge.Controllers
         public List<string> getIngredients()
         {
             return _context.Ingredients.Select(m => m.ingredientName).AsNoTracking().ToList();
+        }
+
+        public bool canMakeRecipe(Recipe r, IQueryable<UserIngredient> ingredients) {
+            var recipeNeeds = r.quantities;
+            foreach (var recipeIng in recipeNeeds) {
+                bool found = false;
+                foreach (var userIng in ingredients) {
+                    if (recipeIng.IngredientID == userIng.IngredientID && recipeIng.quantity <= userIng.quantity) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         [HttpPost]

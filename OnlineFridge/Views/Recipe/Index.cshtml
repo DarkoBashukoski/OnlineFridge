@@ -1,4 +1,9 @@
+@using Microsoft.AspNetCore.Identity
+@using OnlineFridge.Models
+
 @model OnlineFridge.Data.PagedList<OnlineFridge.Models.Recipe>
+    
+@inject SignInManager<ApplicationUser> SignInManager
 
 @{
     ViewData["Title"] = "Recipe Book";
@@ -15,6 +20,13 @@
             <input type="submit" value="Search" class="btn btn-default" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
+        @if (SignInManager.IsSignedIn(User)) {
+            <p>
+                <input type="checkbox" value="true" name="canMakeFilter">
+                <input type="hidden" value="false" name="canMakeFilter">
+                Show only recipes you can make
+            </p>
+        }
     </div>
 </form>
 <div id="recipeList" class="row">
