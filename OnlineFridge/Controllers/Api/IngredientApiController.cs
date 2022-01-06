@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineFridge.Data;
 using OnlineFridge.Models;
+using OnlineFridge.Filters;
 
 namespace OnlineFridge.Controllers_Api
 {
     [Route("api/Ingredient")]
     [ApiController]
+    [ApiKeyAuth]
     public class IngredientApiController : ControllerBase
     {
         private readonly FridgeContext _context;
