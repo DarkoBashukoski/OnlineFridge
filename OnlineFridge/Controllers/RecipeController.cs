@@ -31,6 +31,7 @@ namespace OnlineFridge.Controllers
         {
             int pageSize = 4;
             ViewData["CurrentFilter"] = searchString;
+            ViewData["canMakeFilter"] = canMakeFilter;
 
             IQueryable<Recipe> recipes = _context.Recipes.Include(m => m.steps).Include(m => m.quantities).ThenInclude(m => m.ingredient).AsQueryable();
             if (!String.IsNullOrEmpty(searchString))

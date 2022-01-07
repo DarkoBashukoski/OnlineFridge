@@ -16,13 +16,18 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            Find by name: <input type="text" style="btn btn-success" name="SearchString" value="@ViewData["CurrentFilter"]" />
             <input type="submit" value="Search" class="btn btn-default" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
         @if (SignInManager.IsSignedIn(User)) {
             <p>
-                <input type="checkbox" value="true" name="canMakeFilter">
+                @if ((bool) ViewData["canMakeFilter"]) {
+                    <input type="checkbox" checked="true" value="true" name="canMakeFilter">
+                } else {
+                    <input type="checkbox" value="true" name="canMakeFilter">
+                }
+                
                 <input type="hidden" value="false" name="canMakeFilter">
                 Show only recipes you can make
             </p>
@@ -33,7 +38,7 @@
     @foreach (var item in Model)
     {
         string imageName = item.RecipeID + ".png";
-        <div class="col-md-3">
+        <div class="col-md-3" style="padding-top: 10px; padding-bottom: 10px;">
             <div class="img-container">
                 <img class="recipeImg" src="~/images/RecipeImages/@imageName" onerror="this.src = 'images/missing.png'">
             </div>
@@ -74,10 +79,16 @@
     var prevDisabled = !Model.hasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.hasNextPage ? "disabled" : "";
 }
+<div class="row">
+    <div class="col-md-1">
+        <a asp-action="Index" style="width: 100%;" asp-route-pageNumber="@(Model.pageIndex - 1)" class="btn btn-success @prevDisabled"><i class="fas fa-arrow-left"></i></a>
+    </div>
+    <div class="col-md-10"></div>
+    <div class="col-md-1">
+        <a asp-action="Index" style="width: 100%;" asp-route-pageNumber="@(Model.pageIndex + 1)" class="btn btn-success @nextDisabled"><i class="fas fa-arrow-right"></i></a>
+    </div>
+</div>
 
-<a asp-action="Index" asp-route-pageNumber="@(Model.pageIndex - 1)" class="btn btn-default @prevDisabled">Previous</a>
-
-<a asp-action="Index" asp-route-pageNumber="@(Model.pageIndex + 1)" class="btn btn-default @nextDisabled">Next</a>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
