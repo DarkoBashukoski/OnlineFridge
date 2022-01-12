@@ -77,12 +77,12 @@
         <div class="card">
             <h2>Ingredients</h2>
             <hr />
-            <div>
+            <ul>
                 @foreach (var quantity in Model.quantities)
                 {
-                    <p>@quantity.quantity @quantity.ingredient.ingredientName</p>
+                    <li>@quantity.quantity @quantity.ingredient.ingredientName</li>
                 }
-            </div>
+            </ul>
         </div>
     </div>
 

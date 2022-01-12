@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Nu4RCYzKsTPmnTzN5HB0g4Cd5tRqXDfOnMceqvycuQ0=",
+  "Hash": "hoZTkxtpvzE4qEzw/ywSFUiBAht3JXuKEYID4F/M17Q=",
   "Source": "OnlineFridge",
   "BasePath": "_content/OnlineFridge",
   "Mode": "Default",
@@ -1222,6 +1222,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\RecipeImages\\2.png"
+    },
+    {
+      "Identity": "C:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\wwwroot\\images\\RecipeImages\\7.png",
+      "SourceId": "OnlineFridge",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\wwwroot\\",
+      "BasePath": "_content/OnlineFridge",
+      "RelativePath": "images/RecipeImages/7.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\RecipeImages\\7.png"
+    },
+    {
+      "Identity": "C:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\wwwroot\\images\\RecipeImages\\8.png",
+      "SourceId": "OnlineFridge",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\wwwroot\\",
+      "BasePath": "_content/OnlineFridge",
+      "RelativePath": "images/RecipeImages/8.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\RecipeImages\\8.png"
     },
     {
       "Identity": "C:\\Users\\danie\\Desktop\\OnlineFridge\\OnlineFridge\\wwwroot\\images\\upload.png",
