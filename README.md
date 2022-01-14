@@ -14,3 +14,5 @@ At the start, the database of recipes will be small, and will not contain many e
 
 ### 2. Database and Information Storage
 
+As a basis for the project, I created an SQL Database to store all requiered data. Microsoft Azure was used to host the database server. 
+![database](images/database.png)
