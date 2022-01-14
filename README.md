@@ -38,4 +38,14 @@ This website features user authentication. To get the full experience of the sit
 
 ![myProfile](images/my_profile.png)
 
-After logging in, each user gains access to their own **My Profile** page. It has two sections. The first one is a list of all Ingredients the user has at his disposal.
+After logging in, each user gains access to their own **My Profile** page. It has two sections. 
+
+The first one is a list of all Ingredients the user has at his disposal. He can add new ingredients or change the quantity of already existing ones by inputing a number in the input field next to the coresponding ingredient and pressing the "+" (add) or "-" (subtract) buttons. When the quantity of a certain Ingredient goes below 0, that Ingredient is removed from the list.
+
+The other section is a list all the recipes submited by the user. Same as with the ingredients, there is an option to add new recipes, as well as view the recipe in detail, edit it and delete it if needed. 
+
+### 5. The Recipe Book
+
+![recipeBook](images/recipe_book.png)
+
+The main page, and the one accessible to all users including guests is the Recipe Book. It allows users to view all recipes posted to the website. It includes some information about the, but also a button under each recipe to show the rest. At the top of the page there is a search bar allowing users to filter recipes by name. When a user is logged in, there is another filter available which allows users to hide all recipes that they cannot make with their current ingredients. This way users can easily find recipes that they can make without needing to go shopping.
