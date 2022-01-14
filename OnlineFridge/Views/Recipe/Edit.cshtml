@@ -14,27 +14,27 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="RecipeID" />
             <div class="form-group">
-                <label asp-for="foodCategory" class="control-label" asp-items="Html.GetEnumSelectList<FoodCategory>()"></label>
-                <select asp-for="foodCategory" class="form-control"></select>
+                <label class="control-label">Food Category</label>
+                <select asp-for="foodCategory" class="form-control" asp-items="Html.GetEnumSelectList<FoodCategory>()"></select>
                 <span asp-validation-for="foodCategory" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="recipeName" class="control-label"></label>
+                <label class="control-label">Recipe Name</label>
                 <input asp-for="recipeName" class="form-control" />
                 <span asp-validation-for="recipeName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="recipeDesc" class="control-label"></label>
+                <label class="control-label">Recipe Description</label>
                 <input asp-for="recipeDesc" class="form-control" />
                 <span asp-validation-for="recipeDesc" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="prepTime" class="control-label"></label>
+                <label class="control-label">Prep Time</label>
                 <input asp-for="prepTime" class="form-control" />
                 <span asp-validation-for="prepTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="cookTime" class="control-label"></label>
+                <label class="control-label">Cook Time</label>
                 <input asp-for="cookTime" class="form-control" />
                 <span asp-validation-for="cookTime" class="text-danger"></span>
             </div>
@@ -48,4 +48,3 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
