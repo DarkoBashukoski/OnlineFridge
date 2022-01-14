@@ -6,6 +6,8 @@ Website Link: https://onlinefridge.azurewebsites.net/
 
 API Documentation Link: https://onlinefridge.azurewebsites.net/swagger
 
+Mobile App Repository: https://github.com/DarkoBashukoski/OnlineFridgeApiApp
+
 ### 1. Project Overview
 
 For this assignment, I will be creating an application which will help people in the kitchen. It will keep track of their currently available ingredients, provide them with ideas on what kind of food they can make based on their currently available ingredients, and exchange recipes with other users of the application. 
@@ -30,4 +32,10 @@ The last interesting table is UserIngredient. It acts as the uses inventory and 
 
 ### 3. User Authorization
 
-This website features user authentication. To get the full experience of the site, user will need to create an account an log in. Guest users can only look at the recipe book and browse through the list of recipes. but they cannot add recipes of their own, nor can they keep track of their ingredients. As a looged in user you get access to the **My Profile** page which allows you to add new recipes and ingredients, as well as edit and delete entries you own.
+This website features user authentication. To get the full experience of the site, user will need to create an account an log in. Guest users can only look at the recipe book and browse through the list of recipes. but they cannot add recipes of their own, nor can they keep track of their ingredients. As a loged in user you get access to the **My Profile** page which allows you to add new recipes and ingredients, as well as edit and delete entries you own.
+
+### 4. My Profile Page
+
+![myProfile](images/my_profile.png)
+
+After logging in, each user gains access to their own **My Profile** page. It has two sections. The first one is a list of all Ingredients the user has at his disposal.
